@@ -25,6 +25,54 @@ class DNA:
         return child
 
 
+class Population:
+    def __init__(self, target, mutation_rate, population_size):
+        self.target = target
+        self.mutation_rate = mutation_rate
+        self.population_size = population_size
+        self.population = [DNA(len(target)) for i in range(population_size)]
+        self.mating_pool = list()
+
+        self.calc_fitness()
+        self.generations = 0
+
+    def calc_fitness(self):
+        for genes in self.population:
+            genes.calc_fitness(self.target)
+
+    def natural_selection(self):
+        self.mating_pool.clear()
+        max_fitness = float(max([g.fitness for g in self.population]))
+        for g in self.population:
+            num = int(100 * (g.fitness / max_fitness))
+            self.mating_pool += [g for i in range(num)]
+
+    def __make_child(self):
+        a = random.randrange(len(self.mating_pool))
+        b = random.randrange(len(self.mating_pool))
+        parent_a = self.mating_pool[a]
+        parent_b = self.mating_pool[b]
+        child = parent_a.crossover(parent_b)
+        child.mutate(self.mutation_rate)
+        return child
+
+    def generate(self):
+        self.population = [self.__make_child()
+                           for i in range(self.population_size)]
+        self.generations += 1
+
+    def get_best(self):
+        result = [g.fitness for g in self.population]
+        max_fitness = max(result)
+        max_index = result.index(max_fitness)
+        max_genes = self.population[max_index]
+        return (max_fitness, max_genes)
+
+    def display_best(self):
+        best_fitness, best_dna = self.get_best()
+        print(f"{best_fitness}: {''.join(best_dna.genes)}")
+
+
 def main():
     print("Hello")
 
