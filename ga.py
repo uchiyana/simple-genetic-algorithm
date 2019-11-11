@@ -63,10 +63,10 @@ class Population:
 
     def get_best(self):
         result = [g.fitness for g in self.population]
-        max_fitness = max(result)
-        max_index = result.index(max_fitness)
-        max_genes = self.population[max_index]
-        return (max_fitness, max_genes)
+        best_fitness = max(result)
+        best_index = result.index(best_fitness)
+        best_dna = self.population[best_index]
+        return (best_fitness, best_dna)
 
     def display_best(self):
         best_fitness, best_dna = self.get_best()
