@@ -74,7 +74,17 @@ class Population:
 
 
 def main():
-    print("Hello")
+    target = "To be or not to be"
+    mutation_rate = 0.01
+    population_size = 100
+
+    population = Population(target, mutation_rate, population_size)
+
+    for i in range(100):
+        population.natural_selection()
+        population.generate()
+        population.calc_fitness()
+        population.display_best()
 
 
 if __name__ == "__main__":
