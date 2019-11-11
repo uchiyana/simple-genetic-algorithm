@@ -71,7 +71,9 @@ class Population:
 
     def display_best(self):
         best_fitness, best_dna = self.get_best()
-        print(f"{best_fitness}: {''.join(best_dna.genes)}")
+        normalized_best_fitness = best_fitness / len(self.target)
+        print(
+            f"fitness: {normalized_best_fitness:.2f} result: {''.join(best_dna.genes)}")
 
 
 def main():
