@@ -1,5 +1,6 @@
 import random
 import string
+import argparse
 from itertools import zip_longest
 
 
@@ -74,13 +75,25 @@ class Population:
 
 
 def main():
-    target = "To be or not to be"
-    mutation_rate = 0.01
-    population_size = 100
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-t", "--target", default="To be or not to be", help="target string")
+    parser.add_argument(
+        "-m", "--mutation", type=float, default=0.01, help="mutation rate")
+    parser.add_argument(
+        "-p", "--population", type=int, default=100, help="population size")
+    parser.add_argument(
+        "-g", "--generation", type=int, default=100, help="generation size")
+
+    args = parser.parse_args()
+    target = args.target
+    mutation_rate = args.mutation
+    population_size = args.population
+    generation_size = args.generation
 
     population = Population(target, mutation_rate, population_size)
 
-    for i in range(100):
+    for i in range(generation_size):
         population.natural_selection()
         population.generate()
         population.calc_fitness()
